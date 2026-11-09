@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <rect width="512" height="512" rx="112" fill="#3F7D5C"/>
+  <!-- orejas -->
+  <circle cx="166" cy="178" r="80" fill="#FFFFFF"/>
+  <circle cx="346" cy="178" r="80" fill="#FFFFFF"/>
+  <circle cx="160" cy="174" r="47" fill="#CFE3D6"/>
+  <circle cx="352" cy="174" r="47" fill="#CFE3D6"/>
+  <!-- cabeza en forma de gota, con el hocico hacia abajo -->
+  <path d="M256 408 C226 408 150 338 146 270 C142 206 196 172 256 172 C316 172 370 206 366 270 C362 338 286 408 256 408 Z" fill="#FFFFFF"/>
+  <!-- ojos -->
+  <circle cx="214" cy="266" r="14" fill="#1F3A2B"/>
+  <circle cx="298" cy="266" r="14" fill="#1F3A2B"/>
+  <!-- nariz -->
+  <ellipse cx="256" cy="386" rx="19" ry="14" fill="#1F3A2B"/>
+  <!-- bigotes -->
+  <g stroke="#FFFFFF" stroke-width="9" stroke-linecap="round" fill="none">
+    <path d="M176 334 L92 318"/>
+    <path d="M182 354 L100 370"/>
+    <path d="M336 334 L420 318"/>
+    <path d="M330 354 L412 370"/>
+  </g>
+</svg>

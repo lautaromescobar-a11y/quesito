@@ -1,0 +1,53 @@
+@import "tailwindcss";
+
+/* Modo oscuro por clase: <html class="dark"> */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/*
+ * Tema "Calma + seguimiento": verdes salvia.
+ * Cambiando estos valores se actualiza toda la app.
+ */
+@theme {
+  --color-fondo: #f4f6f3;
+  --color-superficie: #ffffff;
+  --color-borde: #e1e6e1;
+  --color-linea: #eef1ee;
+  --color-texto: #1f2a24;
+  --color-texto-suave: #56645b;
+  --color-acento: #3f7d5c;
+  --color-acento-fuerte: #2c5a41;
+  --color-acento-suave: #e3eee7;
+  --color-sobre-acento: #ffffff;
+  --color-pista: #e3eae5;
+  --color-dia-hecho: #7fb394;
+  --color-check-vacio: #b6c2ba;
+  --font-sans: "DM Sans Variable", "Segoe UI", system-ui, sans-serif;
+}
+
+.dark {
+  --color-fondo: #101613;
+  --color-superficie: #18201b;
+  --color-borde: #26302a;
+  --color-linea: #222b25;
+  --color-texto: #e4eae5;
+  --color-texto-suave: #9daea3;
+  --color-acento: #7fb394;
+  --color-acento-fuerte: #a9d1b8;
+  --color-acento-suave: #213029;
+  --color-sobre-acento: #0f1a14;
+  --color-pista: #26302a;
+  --color-dia-hecho: #6aa182;
+  --color-check-vacio: #4a5a50;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  background: var(--color-fondo);
+  color: var(--color-texto);
+  font-family: var(--font-sans);
+}
