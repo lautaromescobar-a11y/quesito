@@ -44,7 +44,7 @@ function ContenidoPlantillas({ datos, elegidaUrl, alElegir }: { datos: NonNullab
     <div className="mx-auto max-w-6xl space-y-6">
       <header className="flex flex-wrap items-end justify-between gap-4">
         <div>
-          <h1 className="text-[38px] font-semibold tracking-tight">Plantillas</h1>
+          <h1 className="text-[30px] md:text-[38px] font-semibold tracking-tight">Plantillas</h1>
           <p className="max-w-2xl text-[15px] text-texto-suave">
             Tus semanas tipo: una por cuatrimestre, vacaciones o semana de parciales. Cuál se usa cada semana lo elegís en Rutina → Semana.
           </p>
@@ -101,7 +101,7 @@ function ContenidoPlantillas({ datos, elegidaUrl, alElegir }: { datos: NonNullab
           />
         </>
       ) : (
-        <p className="rounded-[20px] bg-superficie p-7 text-texto-suave">Todavía no tenés plantillas. Creá la primera con "Nueva plantilla".</p>
+        <p className="rounded-[20px] bg-superficie p-5 md:p-7 text-texto-suave">Todavía no tenés plantillas. Creá la primera con "Nueva plantilla".</p>
       )}
 
       {form?.tipo === 'nueva' && <FormularioPlantilla plantillas={datos.plantillas} copiarDeInicial={form.copiarDe ?? enUso?.id} alCerrar={() => setForm(null)} alGuardar={setElegida} />}

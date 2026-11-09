@@ -45,7 +45,7 @@ export default function Estadisticas() {
     <div className="mx-auto max-w-5xl space-y-6">
       <header className="flex flex-wrap items-end justify-between gap-4">
         <div>
-          <h1 className="text-[38px] font-semibold tracking-tight">Estadísticas</h1>
+          <h1 className="text-[30px] md:text-[38px] font-semibold tracking-tight">Estadísticas</h1>
           <p className="text-[15px] text-texto-suave">Cómo vienen tus hábitos, tu ánimo y tu foco, semana a semana.</p>
         </div>
         <div role="tablist" aria-label="Período" className="flex gap-1 rounded-xl bg-superficie p-1">
@@ -58,10 +58,10 @@ export default function Estadisticas() {
       </header>
 
       {!hayDatos ? (
-        <p className="rounded-[20px] bg-superficie p-7 text-texto-suave">Todavía no hay datos. Marcá tus hábitos, registrá tu ánimo y usá el foco unos días, y acá vas a ver cómo venís.</p>
+        <p className="rounded-[20px] bg-superficie p-5 md:p-7 text-texto-suave">Todavía no hay datos. Marcá tus hábitos, registrá tu ánimo y usá el foco unos días, y acá vas a ver cómo venís.</p>
       ) : (
         <>
-          <section className="grid grid-cols-2 gap-6 rounded-[20px] bg-superficie p-7 md:grid-cols-4">
+          <section className="grid grid-cols-2 gap-6 rounded-[20px] bg-superficie p-5 md:p-7 md:grid-cols-4">
             <Numero titulo="Hábitos cumplidos" valor={total.porcentaje === null ? '–' : `${total.porcentaje}%`} detalle={`${total.hechos} de ${total.esperados}`} />
             <Numero titulo="Ánimo promedio" valor={animoProm === null ? '–' : `${animoProm}/5`} />
             <Numero titulo="Foco" valor={`${Math.floor(minutos / 60)} h ${minutos % 60} min`} detalle={`${Math.round(minutos / cuantas)} min por semana`} />

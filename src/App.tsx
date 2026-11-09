@@ -1,16 +1,17 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { NavLink, Route, Routes } from 'react-router-dom'
 import { useLiveQuery } from 'dexie-react-hooks'
 import { NOMBRE_APP } from './lib/app'
 import { recurso } from './lib/ruta'
 import { db, leerAjuste } from './lib/db'
-import { useFoco } from './lib/foco'
-import { formatoReloj, restante } from './lib/focoLogica'
+import MiniReloj from './components/MiniReloj'
+import { secciones } from './lib/secciones'
 import Avisos from './components/Avisos'
 import MotorFoco from './components/MotorFoco'
 import VentanitaFoco from './components/VentanitaFoco'
 import AvisoActualizacion from './components/AvisoActualizacion'
 import MotorGoogle from './components/MotorGoogle'
+import NavCelular from './components/NavCelular'
 import { hoyISO } from './lib/fechas'
 import { iniciarRecordatorios } from './lib/notificaciones'
 import Ajustes from './pages/Ajustes'
@@ -26,42 +27,10 @@ import Revision from './pages/Revision'
 import Rutina from './pages/Rutina'
 import Tareas from './pages/Tareas'
 
-type Seccion = { ruta: string; nombre: string; sub?: boolean }
-
-const secciones: Seccion[] = [
-  { ruta: '/habitos', nombre: 'Hábitos' },
-  { ruta: '/rutina', nombre: 'Rutina' },
-  { ruta: '/plantillas', nombre: 'Plantillas', sub: true },
-  { ruta: '/diario', nombre: 'Diario' },
-  { ruta: '/animo', nombre: 'Ánimo' },
-  { ruta: '/foco', nombre: 'Foco' },
-  { ruta: '/revision', nombre: 'Revisión' },
-  { ruta: '/estadisticas', nombre: 'Estadísticas' },
-  { ruta: '/ajustes', nombre: 'Ajustes' },
-]
-
 const claseItem = (activo: boolean, sub?: boolean) =>
   `flex min-h-11 items-center rounded-[10px] transition-colors ${sub ? 'ml-4 min-h-9 px-3 text-sm' : 'px-3 text-[15px]'} ${
     activo ? 'bg-acento-suave font-semibold text-acento-fuerte' : 'text-texto-suave hover:bg-acento-suave/60 hover:text-texto'
   }`
-
-/** Tiempo del foco en el menú mientras el reloj está en marcha o en pausa. */
-function MiniReloj() {
-  const { estado } = useFoco()
-  const [ahora, setAhora] = useState(() => Date.now())
-  useEffect(() => {
-    if (estado.estado === 'detenido') return
-    const id = setInterval(() => setAhora(Date.now()), 500)
-    return () => clearInterval(id)
-  }, [estado.estado])
-  if (estado.estado === 'detenido') return null
-  return (
-    <span className={`ml-auto rounded-full px-2 py-0.5 text-xs font-semibold tabular-nums ${estado.fase === 'foco' ? 'bg-acento text-sobre-acento' : 'bg-pista text-texto'}`} title={estado.estado === 'pausado' ? 'En pausa' : 'En marcha'}>
-      {estado.estado === 'pausado' ? '⏸ ' : ''}
-      {formatoReloj(restante(estado, ahora))}
-    </span>
-  )
-}
 
 /** Tareas tiene un lugar destacado en el menú, con contador de pendientes y vencidas. */
 function ItemTareas() {
@@ -101,7 +70,7 @@ export default function App() {
 
   return (
     <div className="flex h-full">
-      <nav aria-label="Secciones" className="flex w-60 shrink-0 flex-col gap-1 border-r border-borde px-5 py-8">
+      <nav aria-label="Secciones" className="hidden w-60 shrink-0 flex-col gap-1 overflow-y-auto border-r border-borde px-5 py-8 md:flex">
         <div className="flex items-center gap-2.5 px-3 pb-7">
           <img src={recurso('favicon.svg')} alt={`Logo de ${NOMBRE_APP}`} width="32" height="32" className="rounded-lg" />
           <span className="text-[19px] font-bold tracking-tight">{NOMBRE_APP}</span>
@@ -120,7 +89,7 @@ export default function App() {
         ))}
       </nav>
 
-      <main className="min-w-0 flex-1 overflow-y-auto px-14 py-12">
+      <main className="min-w-0 flex-1 overflow-y-auto px-4 pt-6 pb-[calc(96px+env(safe-area-inset-bottom))] md:px-14 md:py-12">
         <Routes>
           <Route path="/" element={<Hoy />} />
           <Route path="/tareas" element={<Tareas />} />
@@ -135,6 +104,7 @@ export default function App() {
           <Route path="/ajustes" element={<Ajustes />} />
         </Routes>
       </main>
+      <NavCelular />
       <MotorFoco />
       <VentanitaFoco />
       <AvisoActualizacion />

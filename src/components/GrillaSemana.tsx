@@ -1,5 +1,6 @@
 import { MarcaGoogle } from './ui'
-import type { ReactNode } from 'react'
+import { useState, type ReactNode } from 'react'
+import { useCelular } from '../lib/useCelular'
 import { aMin, solapados, type ItemAgenda } from '../lib/agenda'
 import { fondoSuave } from '../lib/colores'
 
@@ -42,6 +43,12 @@ export default function GrillaSemana({
   /** Minutos desde la medianoche, para la línea de "ahora" en la columna de hoy. */
   horaActual?: number
 }) {
+  const celular = useCelular()
+  const [elegido, setElegido] = useState<number | null>(null)
+  // En el celular se ve un día por vez (por defecto, hoy).
+  const dia = Math.min(elegido ?? Math.max(0, columnas.findIndex((c) => c.esHoy)), columnas.length - 1)
+  const visibles = celular && columnas.length > 1 ? [dia] : columnas.map((_, i) => i)
+
   const todos = columnas.flatMap((c) => c.items)
   const desde = Math.min(6, ...todos.map((i) => Math.floor(aMin(i.inicio) / 60)))
   const hasta = Math.max(24, ...todos.map((i) => Math.ceil(aMin(i.fin) / 60)))
@@ -50,12 +57,30 @@ export default function GrillaSemana({
   const hayArriba = columnas.some((c) => c.arriba)
 
   return (
-    <div className="overflow-x-auto rounded-[20px] bg-superficie p-4">
-      <div className="grid min-w-[860px]" style={{ gridTemplateColumns: `52px repeat(${columnas.length}, minmax(0, 1fr))` }}>
-        {/* Encabezados */}
-        <div />
-        {columnas.map((c) => (
-          <div key={c.clave} className="px-1 pb-2 text-center">
+    <div className="overflow-x-auto rounded-[20px] bg-superficie p-3 md:p-4">
+      {celular && columnas.length > 1 && (
+        <div role="tablist" aria-label="Día" className="mb-3 grid gap-1" style={{ gridTemplateColumns: `repeat(${columnas.length}, minmax(0, 1fr))` }}>
+          {columnas.map((c, i) => (
+            <button
+              key={c.clave}
+              type="button"
+              role="tab"
+              aria-selected={i === dia}
+              onClick={() => setElegido(i)}
+              className={`flex flex-col items-center rounded-xl py-1.5 text-xs ${i === dia ? 'bg-acento font-semibold text-sobre-acento' : c.esHoy ? 'font-semibold text-acento' : 'text-texto-suave'}`}
+            >
+              <span>{c.titulo.slice(0, 3)}</span>
+              {c.subtitulo && <span className="text-[13px]">{c.subtitulo}</span>}
+              <span className={`mt-0.5 h-1 w-1 rounded-full ${c.items.length ? (i === dia ? 'bg-sobre-acento' : 'bg-acento') : ''}`} aria-hidden />
+            </button>
+          ))}
+        </div>
+      )}
+      <div className={`grid ${celular ? '' : 'min-w-[860px]'}`} style={{ gridTemplateColumns: `52px repeat(${visibles.length}, minmax(0, 1fr))` }}>
+        {/* Encabezados (en el celular ya están en las pestañas de días) */}
+        <div className={celular && columnas.length > 1 ? 'hidden' : ''} />
+        {visibles.map((i) => columnas[i]).map((c) => (
+          <div key={c.clave} className={`px-1 pb-2 text-center ${celular && columnas.length > 1 ? 'hidden' : ''}`}>
             <p className={`text-sm font-semibold ${c.esHoy ? 'text-acento' : ''}`}>{c.titulo}</p>
             {c.subtitulo && (
               <p className={`text-xs ${c.esHoy ? 'font-semibold text-acento' : 'text-texto-suave'}`}>{c.subtitulo}</p>
@@ -66,7 +91,7 @@ export default function GrillaSemana({
         {hayArriba && (
           <>
             <div className="border-t border-linea py-1.5 pr-2 text-right text-[10.5px] leading-tight text-texto-suave">Todo el día</div>
-            {columnas.map((c) => (
+            {visibles.map((i) => columnas[i]).map((c) => (
               <div key={c.clave} className="flex min-h-9 flex-col gap-1 border-t border-l border-linea p-1">
                 {c.arriba}
               </div>
@@ -84,7 +109,8 @@ export default function GrillaSemana({
         </div>
 
         {/* Días */}
-        {columnas.map((c, ci) => {
+        {visibles.map((ci) => {
+          const c = columnas[ci]
           const { lugar, total } = carriles(c.items)
           const chocan = solapados(c.items.filter((i) => i.tipo === 'rutina'))
           return (

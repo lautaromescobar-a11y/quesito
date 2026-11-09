@@ -245,7 +245,7 @@ function ContenidoDiario({ pinActivo }: { pinActivo: boolean }) {
     <div className="mx-auto max-w-6xl space-y-6">
       <header className="flex flex-wrap items-end justify-between gap-4">
         <div>
-          <h1 className="text-[38px] font-semibold tracking-tight">Diario</h1>
+          <h1 className="text-[30px] md:text-[38px] font-semibold tracking-tight">Diario</h1>
           <p className="text-[15px] text-texto-suave">{entradas.length} {entradas.length === 1 ? 'entrada' : 'entradas'} · se guarda solo mientras escribís</p>
         </div>
         {pinActivo && (

@@ -20,7 +20,7 @@ export default function AvisoActualizacion() {
 
   if (!hayNueva) return null
   return (
-    <div role="status" className="fixed bottom-6 left-1/2 z-50 flex w-[min(520px,calc(100vw-32px))] -translate-x-1/2 flex-wrap items-center gap-3 rounded-2xl border border-acento bg-superficie px-5 py-3 shadow-lg">
+    <div role="status" className="fixed bottom-[calc(76px+env(safe-area-inset-bottom))] md:bottom-6 left-1/2 z-50 flex w-[min(520px,calc(100vw-32px))] -translate-x-1/2 flex-wrap items-center gap-3 rounded-2xl border border-acento bg-superficie px-5 py-3 shadow-lg">
       <span className="flex-1 text-[15px]">
         <strong>Hay una versión nueva de {NOMBRE_APP}.</strong>
         <span className="block text-sm text-texto-suave">Tus datos no se tocan.</span>

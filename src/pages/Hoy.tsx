@@ -65,7 +65,7 @@ function FilaHabito({ datos, dias, hoy }: { datos: HabitoConDatos; dias: string[
         ✓
       </button>
 
-      <span className="min-w-52 flex-1">
+      <span className="min-w-0 flex-1 basis-[calc(100%-62px)] md:basis-auto md:min-w-52">
         <span className="block font-semibold">
           {h.nombre}
           {estadoHoy === 'minimo' && <span className="ml-2 rounded-full bg-acento-suave px-2 py-0.5 text-xs font-medium text-acento-fuerte">Mínimo</span>}
@@ -78,7 +78,7 @@ function FilaHabito({ datos, dias, hoy }: { datos: HabitoConDatos; dias: string[
         )}
       </span>
 
-      <span className="flex gap-1.5" aria-label={`Últimos 7 días: ${dias.filter((d) => estados.has(d)).length} registrados`}>
+      <span className="ml-[62px] flex gap-1.5 md:ml-0" aria-label={`Últimos 7 días: ${dias.filter((d) => estados.has(d)).length} registrados`}>
         {dias.map((d) => (
           <span key={d} className="flex flex-col items-center gap-1" aria-hidden>
             <span className={`h-4 w-4 rounded-[5px] ${claseDia(d)}`} />
@@ -87,7 +87,7 @@ function FilaHabito({ datos, dias, hoy }: { datos: HabitoConDatos; dias: string[
         ))}
       </span>
 
-      <span className="w-40 text-right">
+      <span className="ml-auto text-right md:w-40">
         <span className="block text-sm font-semibold text-acento">{textoRacha}</span>
         {aviso && <span className="block text-xs text-texto-suave">{aviso}</span>}
       </span>
@@ -178,7 +178,7 @@ export default function Hoy() {
       <header className="flex flex-wrap items-end justify-between gap-5">
         <div className="max-w-2xl">
           <p className="mb-1.5 text-[15px] text-texto-suave">{fechaLarga()}</p>
-          <h1 className="text-[38px] font-semibold tracking-tight">
+          <h1 className="text-[30px] md:text-[38px] font-semibold tracking-tight">
             {saludo()}
             {nombre ? `, ${nombre}` : ''}
           </h1>
@@ -189,10 +189,10 @@ export default function Hoy() {
             </p>
           )}
         </div>
-        <div className="flex items-center gap-3.5 rounded-2xl bg-superficie px-5 py-3.5">
+        <div className="flex w-full items-center gap-3.5 rounded-2xl bg-superficie px-5 py-3.5 md:w-auto">
           <span className="text-sm text-texto-suave">Progreso del día</span>
           <span
-            className="h-2.5 w-40 overflow-hidden rounded-full bg-pista"
+            className="h-2.5 flex-1 overflow-hidden rounded-full bg-pista md:w-40 md:flex-none"
             role="progressbar"
             aria-valuenow={porcentaje}
             aria-valuemin={0}

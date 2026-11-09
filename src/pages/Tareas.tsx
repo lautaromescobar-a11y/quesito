@@ -64,9 +64,9 @@ export default function Tareas() {
     <div className="mx-auto max-w-4xl space-y-6">
       <header className="flex flex-wrap items-end justify-between gap-4">
         <div>
-          <h1 className="text-[38px] font-semibold tracking-tight">Tareas</h1>
+          <h1 className="text-[30px] md:text-[38px] font-semibold tracking-tight">Tareas</h1>
           <p className="text-[15px] text-texto-suave">
-            {pendientes.length} pendientes{vencidas > 0 && <span className="font-semibold text-red-700 dark:text-red-300"> · {vencidas} vencidas</span>}
+            {pendientes.length} {pendientes.length === 1 ? 'pendiente' : 'pendientes'}{vencidas > 0 && <span className="font-semibold text-red-700 dark:text-red-300"> · {vencidas} {vencidas === 1 ? 'vencida' : 'vencidas'}</span>}
           </p>
         </div>
         <button type="button" className={botonPrincipal} onClick={() => setAbierta('nueva')}>Nueva tarea con detalles</button>
@@ -80,7 +80,7 @@ export default function Tareas() {
         <button type="submit" className={botonPrincipal}>Agregar</button>
       </form>
 
-      <section className="rounded-[20px] bg-superficie p-7">
+      <section className="rounded-[20px] bg-superficie p-5 md:p-7">
         <h2 className="mb-2 text-lg font-semibold">Pendientes ({pendientes.length})</h2>
         {pendientes.length === 0 ? (
           <p className="border-t border-linea py-4 text-[15px] text-texto-suave">No tenés tareas pendientes.</p>
@@ -90,7 +90,7 @@ export default function Tareas() {
       </section>
 
       {hechas.length > 0 && (
-        <section className="rounded-[20px] bg-superficie p-7">
+        <section className="rounded-[20px] bg-superficie p-5 md:p-7">
           <button type="button" onClick={() => setVerHechas(!verHechas)} className="text-lg font-semibold" aria-expanded={verHechas}>
             {verHechas ? '▾' : '▸'} Hechas ({hechas.length})
           </button>

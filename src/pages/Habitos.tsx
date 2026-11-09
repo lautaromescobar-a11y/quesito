@@ -12,7 +12,7 @@ function TarjetaHabito({ datos, alEditar }: { datos: HabitoConDatos; alEditar: (
   const [confirmar, setConfirmar] = useState(false)
 
   return (
-    <article className={`rounded-[20px] bg-superficie p-7 ${h.activo ? '' : 'opacity-70'}`}>
+    <article className={`rounded-[20px] bg-superficie p-5 md:p-7 ${h.activo ? '' : 'opacity-70'}`}>
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div>
           <h2 className="text-xl font-semibold">
@@ -78,7 +78,7 @@ export default function Habitos() {
     <div className="mx-auto max-w-5xl space-y-6">
       <header className="flex flex-wrap items-end justify-between gap-4">
         <div>
-          <h1 className="text-[38px] font-semibold tracking-tight">Hábitos</h1>
+          <h1 className="text-[30px] md:text-[38px] font-semibold tracking-tight">Hábitos</h1>
           <p className="text-[15px] text-texto-suave">Configurá cada hábito y mirá cómo viene tu constancia.</p>
         </div>
         <button type="button" onClick={() => setEditando('nuevo')} className="min-h-11 rounded-xl bg-acento px-5 text-[15px] font-semibold text-sobre-acento hover:opacity-90">
@@ -87,7 +87,7 @@ export default function Habitos() {
       </header>
 
       {visibles?.length === 0 && (
-        <p className="rounded-[20px] bg-superficie p-7 text-texto-suave">Todavía no tenés hábitos. Creá el primero con "Nuevo hábito".</p>
+        <p className="rounded-[20px] bg-superficie p-5 md:p-7 text-texto-suave">Todavía no tenés hábitos. Creá el primero con "Nuevo hábito".</p>
       )}
 
       {visibles?.map((x) => (

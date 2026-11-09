@@ -35,7 +35,7 @@ export default function Animo() {
   return (
     <div className="mx-auto max-w-5xl space-y-6">
       <header>
-        <h1 className="text-[38px] font-semibold tracking-tight">Ánimo y energía</h1>
+        <h1 className="text-[30px] md:text-[38px] font-semibold tracking-tight">Ánimo y energía</h1>
         <p className="text-[15px] text-texto-suave">Un registro de dos toques por día. Con el tiempo muestra patrones.</p>
       </header>
 
@@ -43,7 +43,7 @@ export default function Animo() {
         <CheckinAnimo fecha={hoy} />
       </Tarjeta>
 
-      <section className="grid gap-6 rounded-[20px] bg-superficie p-7 sm:grid-cols-3">
+      <section className="grid gap-6 rounded-[20px] bg-superficie p-5 md:p-7 sm:grid-cols-3">
         <Promedio titulo="Ánimo, últimos 7 días" actual={semana.animo} anterior={anterior.animo} />
         <Promedio titulo="Energía, últimos 7 días" actual={semana.energia} anterior={anterior.energia} />
         <div>

@@ -23,7 +23,7 @@ export default function Rutina() {
     <div className="mx-auto max-w-6xl space-y-6">
       <header className="flex flex-wrap items-end justify-between gap-4">
         <div>
-          <h1 className="text-[38px] font-semibold tracking-tight">Rutina</h1>
+          <h1 className="text-[30px] md:text-[38px] font-semibold tracking-tight">Rutina</h1>
           <p className="text-[15px] text-texto-suave">Tu semana, los cambios que van surgiendo y los eventos.</p>
         </div>
         <nav aria-label="Vistas de la rutina" className="flex gap-1 rounded-xl bg-superficie p-1">

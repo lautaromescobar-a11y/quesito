@@ -130,7 +130,7 @@ export default function Revision() {
   return (
     <div className="mx-auto max-w-4xl space-y-6">
       <header>
-        <h1 className="text-[38px] font-semibold tracking-tight">Revisión semanal</h1>
+        <h1 className="text-[30px] md:text-[38px] font-semibold tracking-tight">Revisión semanal</h1>
         <p className="text-[15px] text-texto-suave">Unos minutos para mirar la semana, sin juzgarte, y decidir qué ajustar.</p>
       </header>
 

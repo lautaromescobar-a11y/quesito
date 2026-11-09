@@ -3,7 +3,7 @@ import { cerrarAviso, useAvisos } from '../lib/avisos'
 export default function Avisos() {
   const avisos = useAvisos()
   return (
-    <div aria-live="polite" className="pointer-events-none fixed right-6 bottom-6 z-50 flex w-[min(380px,calc(100vw-48px))] flex-col gap-2">
+    <div aria-live="polite" className="pointer-events-none fixed right-4 bottom-[calc(76px+env(safe-area-inset-bottom))] z-50 flex w-[min(380px,calc(100vw-32px))] md:right-6 md:bottom-6 flex-col gap-2">
       {avisos.map((a) => (
         <div key={a.id} role="status" className="pointer-events-auto flex items-start gap-3 rounded-2xl border border-borde bg-superficie px-4 py-3 shadow-lg">
           <span className="flex-1">
