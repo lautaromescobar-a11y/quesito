@@ -8,6 +8,8 @@ import { sumarDias } from '../lib/rachas'
 import { cambiarTarea } from '../lib/rutinaDb'
 import { agendaDelDia, useDatosAgenda } from '../lib/useAgenda'
 import Tarjeta from './Tarjeta'
+import { MarcaGoogle } from './ui'
+import { sincronizar, useEstadoGoogle } from '../lib/google'
 
 /** Tarjetas de Hoy: la rutina del día (con el bloque actual marcado) y las tareas que vencen pronto. */
 export default function AgendaHoy() {
@@ -19,6 +21,7 @@ export default function AgendaHoy() {
     return () => clearInterval(id)
   }, [])
 
+  const google = useEstadoGoogle()
   if (!datos) return null
   const hoy = hoyISO()
   const dia = agendaDelDia(datos, hoy)
@@ -30,10 +33,18 @@ export default function AgendaHoy() {
       <Tarjeta>
         <div className="mb-3 flex items-baseline justify-between">
           <h2 className="text-lg font-semibold">Rutina del día</h2>
-          <Link to="/rutina" className="text-sm font-medium text-acento">Ver semana</Link>
+          <span className="flex items-baseline gap-3">
+            {google.fase === 'reconectar' && (
+              <button type="button" className="text-sm font-medium text-acento" onClick={() => void sincronizar(true)} title={google.mensaje}>
+                <MarcaGoogle />Actualizar Google
+              </button>
+            )}
+            <Link to="/rutina" className="text-sm font-medium text-acento">Ver semana</Link>
+          </span>
         </div>
         {dia.todoElDia.map((e) => (
           <p key={e.id} className="mb-2 rounded-lg border border-dashed px-3 py-1.5 text-sm font-medium" style={{ background: fondoSuave(e.color), borderColor: e.color }}>
+            {e.origen === 'google' && <MarcaGoogle />}
             {e.titulo}
           </p>
         ))}
@@ -53,6 +64,7 @@ export default function AgendaHoy() {
                   </span>
                   <span className="h-5 w-1 shrink-0 rounded-full" style={{ background: it.color }} aria-hidden />
                   <span className={`flex-1 text-[15px] ${enCurso ? 'font-semibold' : ''}`}>
+                    {it.google && <MarcaGoogle />}
                     {it.titulo}
                     {it.modificado && <span className="ml-1 text-texto-suave" title="Cambiado solo hoy">✱</span>}
                   </span>

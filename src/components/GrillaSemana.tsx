@@ -1,3 +1,4 @@
+import { MarcaGoogle } from './ui'
 import type { ReactNode } from 'react'
 import { aMin, solapados, type ItemAgenda } from '../lib/agenda'
 import { fondoSuave } from '../lib/colores'
@@ -125,6 +126,7 @@ export default function GrillaSemana({
                   >
                     <span className="block truncate text-[12.5px] font-semibold leading-tight">
                       {it.modificado && <span aria-label="Cambiado solo este día">✱ </span>}
+                      {it.google && <MarcaGoogle />}
                       {it.titulo}
                     </span>
                     {h >= 34 && (

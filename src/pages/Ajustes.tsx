@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react'
 import AjustesPin from '../components/AjustesPin'
+import AjustesGoogle from '../components/AjustesGoogle'
+import AjustesInstalar from '../components/AjustesInstalar'
 import AjustesRespaldo from '../components/AjustesRespaldo'
 import { NOMBRE_APP } from '../lib/app'
 import AjustesNombre from '../components/AjustesNombre'
@@ -51,6 +53,8 @@ export default function Ajustes() {
       <h1 className="text-3xl font-semibold">Ajustes</h1>
 
       <AjustesNombre />
+      <AjustesInstalar />
+      <AjustesGoogle />
 
       <Tarjeta titulo="Apariencia">
         <div className="flex gap-2">

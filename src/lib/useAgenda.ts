@@ -1,5 +1,6 @@
 import { useLiveQuery } from 'dexie-react-hooks'
 import { db, type BloqueRutina, type CambioSemana, type Evento, type PlantillaSemana, type Tarea, type UsoPlantilla } from './db'
+import { comoEvento } from './googleLogica'
 import { bloquesDelDia, eventosConHora, eventosTodoElDia, plantillaDeFecha, usoDeFecha, type ItemAgenda } from './agenda'
 
 export interface DatosAgenda {
@@ -18,7 +19,8 @@ export function useDatosAgenda(): DatosAgenda | undefined {
     usos: await db.usosPlantilla.filter((u) => !u.borrado).toArray(),
     bloques: await db.bloques.filter((b) => !b.borrado).toArray(),
     cambios: await db.cambiosSemana.filter((c) => !c.borrado).toArray(),
-    eventos: await db.eventos.filter((e) => !e.borrado).toArray(),
+    // Los eventos de Google se suman como eventos de solo lectura.
+    eventos: [...(await db.eventos.filter((e) => !e.borrado).toArray()), ...(await db.eventosGoogle.toArray()).map(comoEvento)],
     tareas: await db.tareas.filter((t) => !t.borrado).toArray(),
   }))
 }

@@ -5,7 +5,7 @@ import FormularioBloque from '../../components/FormularioBloque'
 import FormularioEvento from '../../components/FormularioEvento'
 import FormularioTarea from '../../components/FormularioTarea'
 import GrillaSemana from '../../components/GrillaSemana'
-import { botonChico, botonPrincipal, botonSecundario } from '../../components/ui'
+import { botonChico, botonPrincipal, botonSecundario, MarcaGoogle } from '../../components/ui'
 import { actividadesGuardadas, type ItemAgenda } from '../../lib/agenda'
 import { fondoSuave } from '../../lib/colores'
 import type { DiaSemana, Evento, Tarea } from '../../lib/db'
@@ -59,6 +59,7 @@ export default function VistaSemana({ datos, fecha, alCambiarFecha }: { datos: D
         <>
           {d.todoElDia.map((e) => (
             <button key={e.id} type="button" onClick={() => setAbierto({ tipo: 'evento', fecha: d.fecha, evento: e })} className="truncate rounded-md border border-dashed px-1.5 py-0.5 text-left text-[11.5px] font-medium" style={{ background: fondoSuave(e.color), borderColor: e.color }}>
+              {e.origen === 'google' && <MarcaGoogle />}
               {e.titulo}
             </button>
           ))}

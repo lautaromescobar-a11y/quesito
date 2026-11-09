@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import FormularioEvento from '../../components/FormularioEvento'
 import FormularioTarea from '../../components/FormularioTarea'
-import { botonChico, botonPrincipal } from '../../components/ui'
+import { botonChico, botonPrincipal, MarcaGoogle } from '../../components/ui'
 import { ocurrencias } from '../../lib/agenda'
 import { fondoSuave } from '../../lib/colores'
 import type { Evento, Tarea } from '../../lib/db'
@@ -58,6 +58,7 @@ export default function VistaMes({ datos, fecha, alCambiarFecha, alVerSemana }: 
                 </div>
                 {(eventosPorDia.get(f) ?? []).map((e) => (
                   <button key={e.id} type="button" onClick={() => setAbierto({ tipo: 'evento', fecha: f, evento: e })} className="truncate rounded-md border-l-4 px-1.5 py-0.5 text-left text-[12px]" style={{ background: fondoSuave(e.color), borderColor: e.color }}>
+                    {e.origen === 'google' && <MarcaGoogle />}
                     {e.inicio && <span className="tabular-nums text-texto-suave">{e.inicio} </span>}
                     {e.titulo}
                   </button>

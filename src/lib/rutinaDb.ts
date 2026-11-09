@@ -114,10 +114,18 @@ export type DatosEvento = Pick<Evento, 'titulo' | 'fecha' | 'inicio' | 'fin' | '
 export async function guardarEvento(datos: DatosEvento, id?: string) {
   if (id) await db.eventos.update(id, { ...datos, actualizado: ahora() })
   else await db.eventos.add(nuevo<Sin<Evento>>({ ...datos, categoriaId: null, origen: 'propio' }))
+  avisarCambioEventos()
 }
 
 export async function borrarEvento(id: string) {
   await db.eventos.update(id, { borrado: true, actualizado: ahora() })
+  avisarCambioEventos()
+}
+
+/** Avisa que cambiaron los eventos propios (la conexión con Google los envía). */
+export const CAMBIO_EVENTOS = 'quesito:eventos'
+function avisarCambioEventos() {
+  window.dispatchEvent(new Event(CAMBIO_EVENTOS))
 }
 
 // ---------- Tareas ----------

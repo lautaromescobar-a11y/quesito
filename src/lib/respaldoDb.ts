@@ -3,13 +3,16 @@ import { db, guardarAjuste, leerAjuste } from './db'
 import { FORMATO_RESPALDO, validarRespaldo, VERSION_RESPALDO, type Respaldo } from './estadisticas'
 
 /** Ajustes que no viajan en el respaldo: la música son archivos grandes y la marca de respaldo es de este equipo. */
-const AJUSTES_LOCALES = ['musicaFoco', 'ultimoRespaldo']
+const AJUSTES_LOCALES = ['musicaFoco', 'ultimoRespaldo', 'google']
+/** Tablas que son copia de otro lado (se vuelven a traer) y no viajan en el respaldo. */
+const TABLAS_LOCALES = ['eventosGoogle']
 
 export const nombresTablas = () => db.tables.map((t) => t.name)
 
 export async function crearRespaldo(): Promise<Respaldo> {
   const tablas: Record<string, unknown[]> = {}
   for (const t of db.tables) {
+    if (TABLAS_LOCALES.includes(t.name)) continue
     const filas = await t.toArray()
     tablas[t.name] = t.name === 'ajustes' ? filas.filter((f) => !AJUSTES_LOCALES.includes((f as { clave: string }).clave)) : filas
   }
@@ -45,13 +48,16 @@ export async function leerArchivoRespaldo(archivo: File): Promise<{ respaldo?: R
 /** Reemplaza todos los datos por los del respaldo. La música propia de este equipo se conserva. */
 export async function restaurarRespaldo(r: Respaldo) {
   const musica = await leerAjuste('musicaFoco', [])
+  const google = await leerAjuste('google', null)
   await db.transaction('rw', db.tables, async () => {
     for (const t of db.tables) {
+      if (TABLAS_LOCALES.includes(t.name)) continue
       await t.clear()
       const filas = r.tablas[t.name]
       if (filas?.length) await t.bulkPut(filas)
     }
   })
   await guardarAjuste('musicaFoco', musica)
+  if (google) await guardarAjuste('google', google)
   await guardarAjuste('ultimoRespaldo', r.creado)
 }

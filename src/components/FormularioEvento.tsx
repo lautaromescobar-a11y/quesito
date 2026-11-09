@@ -1,11 +1,46 @@
 import { useState } from 'react'
 import { aMin } from '../lib/agenda'
 import { COLOR_POR_DEFECTO } from '../lib/colores'
-import type { Evento } from '../lib/db'
+import { db, type Evento } from '../lib/db'
+import { useLiveQuery } from 'dexie-react-hooks'
+import { deISO, fechaLarga } from '../lib/fechas'
 import { borrarEvento, guardarEvento, type DatosEvento } from '../lib/rutinaDb'
 import { botonPeligro, campo, Dialogo, Error, etiqueta, SelectorColor, SelectorHora } from './ui'
 
-export default function FormularioEvento({ evento, fecha, alCerrar }: { evento?: Evento; fecha: string; alCerrar: () => void }) {
+export default function FormularioEvento(props: { evento?: Evento; fecha: string; alCerrar: () => void }) {
+  if (props.evento?.origen === 'google') return <VerEventoGoogle id={props.evento.id} alCerrar={props.alCerrar} />
+  return <EditarEvento {...props} />
+}
+
+/** Los eventos de Google se miran acá y se editan en Google Calendar. */
+function VerEventoGoogle({ id, alCerrar }: { id: string; alCerrar: () => void }) {
+  const ev = useLiveQuery(() => db.eventosGoogle.get(id), [id])
+  return (
+    <Dialogo titulo={ev?.titulo ?? 'Evento de Google'} alCerrar={alCerrar} alEnviar={() => {}} soloLectura>
+      {ev && (
+        <>
+          <p className="text-[15px]">
+            <span>{fechaLarga(deISO(ev.fecha))}</span>
+            <br />
+            {ev.inicio ? `${ev.inicio} – ${ev.fin}` : 'Todo el día'}
+          </p>
+          <p className="flex items-center gap-2 text-sm text-texto-suave">
+            <span className="h-3 w-3 rounded-full" style={{ background: ev.color }} aria-hidden />
+            Calendario de Google: {ev.calendario}
+          </p>
+          <p className="text-sm text-texto-suave">Este evento viene de Google Calendar. Para cambiarlo o borrarlo, hacelo en Google; Quesito lo actualiza solo.</p>
+          {ev.enlace && (
+            <a href={ev.enlace} target="_blank" rel="noreferrer" className="self-start font-medium text-acento underline">
+              Abrir en Google Calendar
+            </a>
+          )}
+        </>
+      )}
+    </Dialogo>
+  )
+}
+
+function EditarEvento({ evento, fecha, alCerrar }: { evento?: Evento; fecha: string; alCerrar: () => void }) {
   const [d, setD] = useState<DatosEvento>({
     titulo: evento?.titulo ?? '',
     fecha: evento?.fecha ?? fecha,

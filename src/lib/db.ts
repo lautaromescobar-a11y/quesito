@@ -66,6 +66,24 @@ export interface Evento extends Sincronizable {
   repeticion: 'ninguna' | 'semanal' | 'mensual' | 'anual'
   categoriaId: string | null
   origen: 'propio' | 'google'
+  /** Id del evento copiado en el calendario "Quesito" de Google. */
+  googleId?: string
+  /** Valor de `actualizado` la última vez que se envió a Google. */
+  googleEnviado?: string
+}
+
+/** Copia local de un evento de Google Calendar (solo lectura). No viaja en el respaldo: se vuelve a traer. */
+export interface EventoGoogle {
+  /** calendario|evento|fecha */
+  id: string
+  calendarioId: string
+  calendario: string
+  titulo: string
+  fecha: string
+  inicio: string | null
+  fin: string | null
+  color: string
+  enlace: string
 }
 
 export interface Tarea extends Sincronizable {
@@ -146,6 +164,7 @@ class RutinaDB extends Dexie {
   foco!: EntityTable<SesionFoco, 'id'>
   revisiones!: EntityTable<RevisionSemanal, 'id'>
   ajustes!: EntityTable<Ajuste, 'clave'>
+  eventosGoogle!: EntityTable<EventoGoogle, 'id'>
 
   constructor() {
     super('rutina')
@@ -190,6 +209,8 @@ class RutinaDB extends Dexie {
           usar.map((p) => ({ id: crypto.randomUUID(), actualizado: ahora, borrado: false, plantillaId: p.id, tipo: 'desde', desde: lunesDe(p.vigenteDesde) })),
         )
       })
+    // v4 (Fase 6): copia local de los eventos de Google Calendar.
+    this.version(4).stores({ eventosGoogle: 'id, calendarioId, fecha' })
   }
 }
 

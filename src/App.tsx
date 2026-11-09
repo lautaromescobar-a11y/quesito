@@ -10,6 +10,7 @@ import Avisos from './components/Avisos'
 import MotorFoco from './components/MotorFoco'
 import VentanitaFoco from './components/VentanitaFoco'
 import AvisoActualizacion from './components/AvisoActualizacion'
+import MotorGoogle from './components/MotorGoogle'
 import { hoyISO } from './lib/fechas'
 import { iniciarRecordatorios } from './lib/notificaciones'
 import Ajustes from './pages/Ajustes'
@@ -137,6 +138,7 @@ export default function App() {
       <MotorFoco />
       <VentanitaFoco />
       <AvisoActualizacion />
+      <MotorGoogle />
       <Avisos />
     </div>
   )

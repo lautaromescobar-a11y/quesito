@@ -17,12 +17,15 @@ export function Dialogo({
   alEnviar,
   children,
   pie,
+  soloLectura = false,
 }: {
   titulo: string
   alCerrar: () => void
   alEnviar: () => void | Promise<void>
   children: ReactNode
   pie?: ReactNode
+  /** Sin botón Guardar: solo para mirar. */
+  soloLectura?: boolean
 }) {
   const ref = useRef<HTMLDialogElement>(null)
   useEffect(() => {
@@ -42,11 +45,13 @@ export function Dialogo({
         <footer className="flex flex-wrap items-center justify-end gap-2 border-t border-linea px-7 py-4">
           {pie}
           <button type="button" onClick={() => ref.current?.close()} className={botonSecundario}>
-            Cancelar
+            {soloLectura ? 'Cerrar' : 'Cancelar'}
           </button>
-          <button type="submit" className={botonPrincipal}>
-            Guardar
-          </button>
+          {!soloLectura && (
+            <button type="submit" className={botonPrincipal}>
+              Guardar
+            </button>
+          )}
         </footer>
       </form>
     </dialog>
@@ -102,5 +107,14 @@ export function Error({ texto }: { texto: string }) {
     <p role="alert" className="text-sm font-medium text-red-700 dark:text-red-300">
       {texto}
     </p>
+  )
+}
+
+/** Pequeña marca para lo que viene de Google Calendar. */
+export function MarcaGoogle() {
+  return (
+    <span title="De Google Calendar" aria-label="De Google Calendar" className="mr-1 inline-flex h-[14px] w-[14px] translate-y-[-1px] items-center justify-center rounded-[4px] bg-superficie/80 align-middle text-[10px] font-bold leading-none text-[#4285F4] ring-1 ring-black/10">
+      G
+    </span>
   )
 }

@@ -51,6 +51,8 @@ export interface ItemAgenda {
   eventoId: string | null
   /** true si este día tiene un cambio respecto de la plantilla. */
   modificado: boolean
+  /** Viene de Google Calendar (solo lectura). */
+  google?: boolean
 }
 
 type DatosBloque = Pick<BloqueRutina, 'titulo' | 'inicio' | 'fin' | 'color' | 'notas'>
@@ -148,7 +150,7 @@ export function ocurrencias(ev: Evento, desde: string, hasta: string): string[] 
 export function eventosConHora(eventos: Evento[], fecha: string): ItemAgenda[] {
   return eventos
     .filter((e) => e.inicio && e.fin && ocurrencias(e, fecha, fecha).length > 0)
-    .map((e) => item(e as DatosBloque & Evento, { clave: `${e.id}@${fecha}`, tipo: 'evento', eventoId: e.id, notas: '' }))
+    .map((e) => item(e as DatosBloque & Evento, { clave: `${e.id}@${fecha}`, tipo: 'evento', eventoId: e.id, notas: '', google: e.origen === 'google' }))
 }
 
 export function eventosTodoElDia(eventos: Evento[], fecha: string): Evento[] {
